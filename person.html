@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .table1{
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
+    .td1{
+        font-weight: bold;
+        border:1px solid black ;
+        text-align: center;
+    }
+    .th1{
+        background-color:blue;
+        color: white;
+        border: 1px solid black;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .btn{
+        background-color: lightgreen;
+        color: white;
+    }
+    </style>
+</head>
+<body >
+   <div id="item"></div> 
+   <div id="item1"></div>
+   <script>
+    const arr=[{name:'Bob',age:22,city:'London',tech:'java'},
+{name:'jack',age:34,city:'Paris',tech:'python'},
+{name:'Julia',age:32,city:'London',tech:'C++'},
+{name:'Mark',age:26,city:'New York',tech:'C'}];
+const cityOption=['London','Paris','Delhi','NewYork'];
+const techOption=['Android','React','Angular','Spring','Javascript'];
+showForm();
+showTable();
+function add1(){
+    let st=document.getElementById('name').value;
+        
+        let e1=cityOption.find(function(ele){
+            return ele==st;
+        })
+        if(st==''){
+            alert('Value is not entered')
+        }else if(e1){
+            alert('value is already exist')
+            document.getElementById('name').value='';
+        }
+        else{
+            cityOption.push(st);
+        manageC();}
+
+        
+        
+}
+function add2(){
+    let st=document.getElementById('name').value;
+    let e1=techOption.find(function(ele){
+            return ele==st;
+        })
+        if(st==''){
+            alert('Value is not entered')
+        }
+        else if(e1){
+            alert('value already exist')
+            document.getElementById('name').value='';
+        }
+        else{
+        techOption.push(st);
+        
+        manageT();}
+
+            }
+function showMain(){
+    showForm();
+    showTable();
+}
+function manageC(){
+    
+    let str='<h3>List of Cities</h3></br>';
+    str+='<input type="text" id="name"></br>';
+    str+='<button onclick=\'add1()\'>Add</button></br>';
+    const ar=cityOption.map(function(ele){
+        let s1='<tr>';
+            s1+='<td class="td1" id="c1">'+ele+'</td>';
+        s1+='<td class="td1"><button class="btn" onclick=\'remove1("'+ele+'")\'>Remove</button></td>';
+
+        return s1;
+    });
+  let n1='<button onclick=\'showMain()\'>Show Main Form</button>'
+    let html=str+'<table class="table1">'+ar.join('')+'</table>'+n1;
+   
+    let e1=document.getElementById('item');
+    e1.innerHTML=html;
+    let e2=document.getElementById('item1');
+    e2.innerHTML='';
+
+}
+function manageT(){
+    let str='<h3>List of Techs</h3></br>';
+    str+='<input type="text" id="name"></br>';
+    str+='<button onclick=\'add2()\'>Add</button></br>';
+    const ar=techOption.map(function(ele){
+        let s1='<tr>';
+            s1+='<td class="td1" id="t1">'+ele+'</td>';
+        s1+='<td class="td1"><button class="btn" onclick=\'remove2("'+ele+'")\'>Remove</button></td>';
+
+        return s1;
+    });
+  let n1='<button onclick=\'showMain()\'>Show Main Form</button>'
+    let html=str+'<table class="table1">'+ar.join('')+'</table>'+n1;
+    
+    let e1=document.getElementById('item');
+    e1.innerHTML=html;
+    let e2=document.getElementById('item1');
+    e2.innerHTML='';
+
+}
+    function showForm(){
+            let str='Name:<input type="text" id="name"></br>';
+        str+='Age:<input type="number" id="age"></br>';
+        str+=makeCityDD('city',cityOption,'Select city','')+'</br>';
+        str+=makeCityDD('tech',techOption,'Select technology','')+'</br>';
+        str+='<button onclick=\'remove()\'>Remove Person</button>';
+        
+        str+='<button onclick=\'addPerson()\'>Add Person</button>';
+        str+='<button onclick=\'manageC()\'>Manage Cities </button>';
+        str+='<button onclick=\'manageT()\'>Manage Tech</button>';
+            let div=document.getElementById('item');
+            div.innerHTML=str;
+    
+        }
+        function makeCityDD(id,arr,first,selVal){
+        const arr1=arr.map(function(opt){
+            if(opt==selVal){
+                return '<option selected>'+opt+'</option>';
+            }
+            else{
+                return '<option>'+opt+'</option>';
+            }
+        });
+        let header='<option disabled>'+first+'</option>';
+        if(selVal==''){
+            header='<option disabled selected>'+first+'</option>';
+        }
+        let s1='<select id=\''+id+'\'>'+header+arr1.join('')+'</select>';
+        return s1;
+    }
+    
+        function addPerson(){
+        let st={};
+        st.name=document.getElementById('name').value;
+        st.age=document.getElementById('age').value;
+        st.city=document.getElementById('city').value;
+        st.tech=document.getElementById('tech').value;
+        let a1=arr.find(function(e1){
+            return e1.name==st.name;
+        });
+        if(a1){
+            alert("Name already exist");
+        }
+        else if(st.name==''|| st.age==''||st.city=='Select city'||st.tech=='Select technology'){
+            alert('Value is empty')
+        }
+        else {
+        arr.push(st);}
+        
+        showTable();
+      
+        }
+        function remove2(el){
+        
+        
+        let index=techOption.findIndex(function(ele){
+            return ele==el;
+        });
+        if(index>=0){
+            techOption.splice(index,1);
+        }
+        manageT();}
+    function remove1(el){
+        
+    
+        let index=cityOption.findIndex(function(ele){
+            return ele==el;
+        });
+        if(index>=0){
+            cityOption.splice(index,1);
+        }
+        manageC();
+    }
+    function remove(){
+            let prd=document.getElementById('name').value;
+            let index=arr.findIndex(function(ele){
+        return ele.name==prd;
+    });
+    
+    if(index>=0){
+    
+        arr.splice(index,1);
+        
+    }
+    else{
+        alert("No person is found");
+    }
+    showTable();
+
+    
+        }
+        
+        function showTable(){
+            let element=document.getElementById('item1')
+        let stMap=arr.map(function(ele){
+            let str='<tr>';
+        str+='<td class="td1">'+ele.name+'</td>';
+        str+='<td class="td1">'+ele.age+'</td>';
+        str+='<td class="td1">'+ele.city+'</td>';
+        str+='<td class="td1">'+ele.tech+'</td>';
+        
+        str+='</tr>';
+        return str;
+    });
+    let header='<tr>';
+        header+='<th class=\'th1\'>Name</th>';
+        header+='<th class=\'th1\'>Age</th>';
+        header+='<th class=\'th1\'>City</th>';
+        header+='<th class=\'th1\'>Technology</th>';
+       
+        
+        header+='</tr>';
+    
+    let html='<table class="table1">'+header+stMap.join('')+'</table>';
+    element.innerHTML=html;
+
+        }
+   </script>
+</body>
+</html>
